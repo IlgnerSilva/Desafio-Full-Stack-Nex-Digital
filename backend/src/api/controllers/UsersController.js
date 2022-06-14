@@ -2,6 +2,10 @@ const { InvalidArgumentError, InternalServerError } = require('../models/Error')
 const User = require('../models/User');
 const database = require('../../database/models');
 
+function createJWTToken(){
+    
+}
+
 class UsersController {
     static async searchAllUsers(req, res){
         try {
