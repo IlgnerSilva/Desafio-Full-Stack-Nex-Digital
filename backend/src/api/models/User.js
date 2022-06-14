@@ -1,13 +1,14 @@
-const validations = require('../models/Validations');
+const validations = require('./validations');
 const database = require('../../database/models');
-const { InvalidArgumentError } = require('./Error')
+const { InvalidArgumentError } = require('./Error');
+const bcript = require('bcrypt');
 
 class User {
     constructor (user){
         this.id = user.id;
         this.name = user.name;
         this.email = user.email;
-        this.password = user.password;
+        this.hashPassword = user.hashPassword;
 
         this.validate()
     }
@@ -19,11 +20,29 @@ class User {
         return await database.users.create(this)
     }
 
+    async addPassword(password){
+        validations.minimumFieldSize(password, 'password', 8);
+        this.hashPassword = await User.generateHashPassword(password)
+    }
+
+    static async searchByEmail(email){
+        const user = await database.users.findOne({where:{email: email}});
+        if(!user)
+            return null;
+        
+        return new User(user)
+    }
+
     validate(){
         validations.stringFieldNotNull(this.name, 'name');
         validations.stringFieldNotNull(this.email, 'email');
         // validations.stringFieldNotNull(this.password, 'password');
-        validations.minimumFieldSize(this.password, 'password', 8);
+    }
+
+
+
+    static generateHashPassword(password){
+        return bcript.hash(password, 12)
     }
 }
 

@@ -15,9 +15,9 @@ class UsersController {
 
     static async registerUser(req, res){
         const  { name, email, password } = req.body;
-        console.log(req.body)
         try{
-            const user = new User({name, email, password})
+            const user = new User({name, email});
+            user.addPassword(password)
             await user.addUser()
             return res.status(201).json()
         }
@@ -31,6 +31,17 @@ class UsersController {
             }
         }
     }
+
+    static async busca(req, res){
+        const { email } = req.params;
+        const user = await User.searchByEmail(email);
+        return res.status(201).json(user);
+    }
+
+    static async login(req, res){
+        res.status(204).send();
+    }
+
 }
 
 module.exports = UsersController

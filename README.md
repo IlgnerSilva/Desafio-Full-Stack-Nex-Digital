@@ -1,1 +1,0 @@
-# Desafio-Full-Stack-Nex-Digital
