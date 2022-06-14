@@ -15,9 +15,9 @@ module.exports = {
         const expirationDate = jwt.decode(token).exp;
         const tokenHash = generateTokenHash(token);
         await setAsync(tokenHash, '');
-        blacklist.expireAt(tokenHash, expirationDate);
+        blacklist.expireat(tokenHash, expirationDate);
     },
-    containToken: token => {
+    containToken: async token => {
         const tokenHash = generateTokenHash(token);
         const result = await existsAsync(tokenHash);
         return result === 1; 

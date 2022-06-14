@@ -8,7 +8,7 @@ function createJWTToken(user){
     const payload = {
         id: user.id
     };
-    const token = jwt.sign(payload, process.env.KEY_JWT, {expiresIn: '15m'});
+    const token = jwt.sign(payload, process.env.KEY_JWT, {expiresIn: '10m'});
     return token;
 }
 
@@ -50,7 +50,6 @@ class UsersController {
 
     static async searchUserById(req, res){
         const { id } = req.params;
-        console.log(req.params)
         const user = await User.searchById(id)
         return res.status(201).json(user);
     }
@@ -62,8 +61,14 @@ class UsersController {
     }
 
     static async logout(req, res){
-        const token = req.token;
-        await blacklist.add(token);
+        try{
+            const token = req.token;
+            await blacklist.add(token);
+            res.status(204).send();
+        }
+        catch(err){
+            res.status(500).json({erro: err.message});
+        }
     }
 
 }
