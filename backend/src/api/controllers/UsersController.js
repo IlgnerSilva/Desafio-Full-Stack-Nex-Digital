@@ -2,12 +2,13 @@ const { InvalidArgumentError, InternalServerError } = require('../models/Error')
 const User = require('../models/User');
 const database = require('../../database/models');
 const jwt = require('jsonwebtoken');
+const blacklist = require('../../../redis/manipulateBlacklist');
 
 function createJWTToken(user){
     const payload = {
         id: user.id
     };
-    const token = jwt.sign(payload, process.env.KEY_JWT);
+    const token = jwt.sign(payload, process.env.KEY_JWT, {expiresIn: '15m'});
     return token;
 }
 
@@ -58,6 +59,11 @@ class UsersController {
         const token = createJWTToken(req.user);
         res.set('Authorization', token);
         res.status(204).send();
+    }
+
+    static async logout(req, res){
+        const token = req.token;
+        await blacklist.add(token);
     }
 
 }

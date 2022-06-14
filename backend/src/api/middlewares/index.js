@@ -1,3 +1,4 @@
 module.exports = {
-    authenticationStrategy: require('./authenticationStrategy')
+    authenticationStrategy: require('./authenticationStrategy'),
+    middlewareAuthentication: require('./middlewareAuthentication')
 }
