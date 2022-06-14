@@ -1,9 +1,14 @@
 const { InvalidArgumentError, InternalServerError } = require('../models/Error');
 const User = require('../models/User');
 const database = require('../../database/models');
+const jwt = require('jsonwebtoken');
 
-function createJWTToken(){
-    
+function createJWTToken(user){
+    const payload = {
+        id: user.id
+    };
+    const token = jwt.sign(payload, process.env.KEY_JWT);
+    return token;
 }
 
 class UsersController {
@@ -43,6 +48,8 @@ class UsersController {
     }
 
     static async login(req, res){
+        const token = createJWTToken(req.user);
+        res.set('Authorization', token);
         res.status(204).send();
     }
 
