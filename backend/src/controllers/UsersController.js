@@ -1,1 +1,0 @@
-const datatabase = require('../models');
