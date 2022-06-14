@@ -33,6 +33,14 @@ class User {
         return new User(user)
     }
 
+    static async searchById(id){
+        const user = await database.users.findOne({where: {id: id}});
+        if(!user)
+            return null;
+        
+        return new User(user)
+    }
+
     validate(){
         validations.stringFieldNotNull(this.name, 'name');
         validations.stringFieldNotNull(this.email, 'email');

@@ -47,6 +47,13 @@ class UsersController {
         return res.status(201).json(user);
     }
 
+    static async searchUserById(req, res){
+        const { id } = req.params;
+        console.log(req.params)
+        const user = await User.searchById(id)
+        return res.status(201).json(user);
+    }
+
     static async login(req, res){
         const token = createJWTToken(req.user);
         res.set('Authorization', token);

@@ -5,7 +5,8 @@ const passport = require('passport');
 
 route.get('/user', UsersController.searchAllUsers);
 route.post('/registerUser', UsersController.registerUser);
-route.get('/user/:email', UsersController.busca);
+route.get('/user/searchByEmail/:email', UsersController.busca);
+route.get('/user/searchById/:id', UsersController.searchUserById);
 route.post('/user/login', passport.authenticate('local', {session: false}), UsersController.login);
 
 
