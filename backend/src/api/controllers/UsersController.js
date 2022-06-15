@@ -25,6 +25,7 @@ class UsersController {
 
     static async registerUser(req, res){
         const  { name, email, password } = req.body;
+        console.log(req.body)
         try{
             const user = new User({name, email});
             user.addPassword(password)
@@ -57,14 +58,15 @@ class UsersController {
     static async login(req, res){
         const token = createJWTToken(req.user);
         res.set('Authorization', token);
-        res.status(204).send();
+        console.log()
+        return res.status(200).json({nome: token});
     }
 
     static async logout(req, res){
         try{
             const token = req.token;
             await blacklist.add(token);
-            res.status(204).send();
+            res.status(201).send();
         }
         catch(err){
             res.status(500).json({erro: err.message});
