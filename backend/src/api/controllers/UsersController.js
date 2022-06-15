@@ -25,16 +25,15 @@ class UsersController {
 
     static async registerUser(req, res){
         const  { name, email, password } = req.body;
-        console.log(req.body)
         try{
             const user = new User({name, email});
             user.addPassword(password)
             await user.addUser()
-            return res.status(201).json()
+            return res.status(201).json(201);
         }
         catch(err){
             if(err instanceof InvalidArgumentError){
-                res.status(422).json({erro: err.message});
+                return res.status(422).json({erro: err.message});
             }else if(err instanceof InternalServerError){
                 res.status(500).json({erro: err.message})
             }else{
@@ -56,10 +55,10 @@ class UsersController {
     }
 
     static async login(req, res){
+        const { name, email } = req.user;
         const token = createJWTToken(req.user);
         res.set('Authorization', token);
-        console.log()
-        return res.status(200).json({nome: token});
+        return res.status(200).json({name: name, email, email, authorization: token});
     }
 
     static async logout(req, res){
