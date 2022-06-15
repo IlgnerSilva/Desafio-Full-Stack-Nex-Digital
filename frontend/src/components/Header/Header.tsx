@@ -1,3 +1,5 @@
+import Button from "../Button/Button";
+import FormLogin from "../FormLogin/FormLogin";
 
 interface Props {
     user: string | null | undefined;
@@ -5,6 +7,9 @@ interface Props {
 }
 
 export default function Header({ user, setUser }: Props){
+    function logout(){
+        
+    }
     return (
         <header className="bg-white w-full 2xl:container xl:mx-auto py-4 shadow-md">
         <div className='w-full flex justify-around'>
@@ -16,11 +21,11 @@ export default function Header({ user, setUser }: Props){
                     <p>
                         Olá <strong>@{user}</strong>
                     </p>
-                    {/* <Button onClick={()=> logout()} value='Sair'/> */}
+                    <Button onClick={()=> logout()} value='Sair'/>
                 </div>
             ) : (
                 <div>
-                    {/* <Form user={user} setUser={setUser}/> */}
+                    <FormLogin user={user} setUser={setUser}/>
                 </div>
             )}
             </div>
