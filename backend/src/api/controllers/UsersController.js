@@ -42,7 +42,7 @@ class UsersController {
         }
     }
 
-    static async busca(req, res){
+    static async searchEmail(req, res){
         const { email } = req.params;
         const user = await User.searchByEmail(email);
         return res.status(201).json(user);

@@ -6,7 +6,7 @@ const {middlewareAuthentication} = require('../middlewares');
 
 route.get('/user', UsersController.searchAllUsers);
 route.post('/registerUser', UsersController.registerUser);
-route.get('/user/searchByEmail/:email', UsersController.busca);
+route.get('/user/searchByEmail/:email', UsersController.searchEmail);
 route.get('/user/searchById/:id', UsersController.searchUserById);
 route.post('/user/login', middlewareAuthentication.local, UsersController.login);
 route.get('/user/logout', middlewareAuthentication.bearer, UsersController.logout)
