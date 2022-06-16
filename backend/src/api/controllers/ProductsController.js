@@ -1,12 +1,12 @@
 const { InvalidArgumentError, InternalServerError } = require('../models/Error');
 const Products = require('../models/Products');
+const database = require('../../database/models');
 const { middlewareAuthentication } = require('../middlewares')
 
 class ProductsController {
     static async registerProduct(req, res){
         const { name, description, imageURL } = req.body;
         try{
-            console.log(req.body)
             const product = new Products({name, description, imageURL});
             product.addProduct();
             return res.status(201).json(product);
@@ -19,6 +19,16 @@ class ProductsController {
             }else{
                 res.status(500).json({erro: err.message})
             }
+        }
+    }
+
+    static async searchAllProducts(req, res){
+        try{
+            const listAllProducts = await database.products.findAll();
+            return res.status(200).json(listAllProducts)
+        }
+        catch(err){
+            return res.status(500).json(err.message)
         }
     }
 }
